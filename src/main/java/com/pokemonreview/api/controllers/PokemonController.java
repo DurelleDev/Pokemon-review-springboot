@@ -1,6 +1,7 @@
 package com.pokemonreview.api.controllers;
 
 import com.pokemonreview.api.models.Pokemon;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,31 +14,38 @@ import java.util.List;
 public class PokemonController {
 
     @GetMapping("pokemon")
-    public ResponseEntity<List<Pokemon>> getAllPokemons(){
-        List<Pokemon> pokemons = new ArrayList<>();
+    public ResponseEntity<List> getAllPokemon(){
+        ArrayList<Pokemon> pokemonList = new ArrayList<>();
 
-        pokemons.add(new Pokemon(1,"Squirtle", "Water"));
-        pokemons.add(new Pokemon(2,"Pikachu", "Electric"));
-        pokemons.add(new Pokemon(3,"Charmander", "Fire"));
+        pokemonList.add(new Pokemon(0,"Pikachu", "Electric"));
+        pokemonList.add(new Pokemon(1,"Charmander", "Water"));
+        pokemonList.add(new Pokemon(2,"PudgyBudgy", "Earth"));
 
-        return ResponseEntity.ok(pokemons);
+        return new ResponseEntity<>(pokemonList, HttpStatus.CREATED);
     }
 
     @GetMapping("pokemon/{id}")
-    public Pokemon pokemonDetail(@PathVariable int id){
-        return new Pokemon(id, "Squirtle", "Water");
+    public Pokemon getSpecificPokemon(@PathVariable int id){
+        return new Pokemon(id, "Pudgy", "Earth");
     }
 
+//    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("pokemon/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Pokemon> createPokemon(@RequestBody Pokemon pokemon){
 
-       System.out.println(pokemon.getName());
-       System.out.println(pokemon.getType());
+        System.out.println(pokemon.getName());
+        System.out.println(pokemon.getType());
 
-       return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+    }
 
-   }
+    @PutMapping("pokemon/{id}/update")
+    public ResponseEntity<Pokemon> updatePokemon(@RequestBody Pokemon pokemon, @PathVariable("id") int pokemonId){
+        System.out.println(pokemon.getName());
+        System.out.println(pokemon.getType());
+
+        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+    }
 
 
 

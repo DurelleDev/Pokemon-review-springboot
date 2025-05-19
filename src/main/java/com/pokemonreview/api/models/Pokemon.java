@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Pokemon {
+public class Pokemon{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
