@@ -1,6 +1,7 @@
 package com.pokemonreview.api.controllers;
 
 import com.pokemonreview.api.models.Pokemon;
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,19 +14,19 @@ import java.util.List;
 public class PokemonController {
 
     @GetMapping("pokemon")
-    public ResponseEntity<List> getAllPokemon(){
-        ArrayList<Pokemon> pokemonList = new ArrayList<>();
+    public ResponseEntity<List<Pokemon>> getAllPokemon(){
+        ArrayList<Pokemon> pokemonlist = new ArrayList<>();
 
-        pokemonList.add(new Pokemon(0,"Pikachu", "Electric"));
-        pokemonList.add(new Pokemon(1,"Charmander", "Water"));
-        pokemonList.add(new Pokemon(2,"PudgyBudgy", "Earth"));
+        pokemonlist.add(new Pokemon(0, "Pikachu", "Eletric"));
+        pokemonlist.add(new Pokemon(1, "Charazard", "Water"));
+        pokemonlist.add(new Pokemon(2, "PudgyBudgy", "Water"));
 
-        return new ResponseEntity<>(pokemonList, HttpStatus.CREATED);
-    }
+        return new ResponseEntity<>(pokemonlist, HttpStatus.OK);
+}
 
     @GetMapping("pokemon/{id}")
-    public Pokemon getSpecificPokemon(@PathVariable int id){
-        return new Pokemon(id, "Pudgy", "Earth");
+    public Pokemon getPokemonById(@PathVariable("id") int identification){
+        return new Pokemon(identification, "Pudgy", "Earth");
     }
 
 //    @ResponseStatus(HttpStatus.CREATED)
@@ -38,12 +39,14 @@ public class PokemonController {
         return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
     }
 
+
     @PutMapping("pokemon/{id}/update")
     public ResponseEntity<Pokemon> updatePokemon(@RequestBody Pokemon pokemon, @PathVariable("id") int pokemonId){
+
         System.out.println(pokemon.getName());
         System.out.println(pokemon.getType());
 
-        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+        return new ResponseEntity<>(pokemon, HttpStatus.OK);
     }
 
 
