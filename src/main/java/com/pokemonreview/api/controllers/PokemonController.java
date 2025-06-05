@@ -4,7 +4,6 @@ package com.pokemonreview.api.controllers;
 import com.pokemonreview.api.models.Pokemon;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class PokemonController {
 
         pokemonArrayList.add(new Pokemon(0, "Charmander", "Fire"));
         pokemonArrayList.add(new Pokemon(1, "Pikachu", "Electric"));
-        pokemonArrayList.add(new Pokemon(0, "bulbasaur", "Water"));
+        pokemonArrayList.add(new Pokemon(2, "bulbasaur", "Water"));
 
         return new ResponseEntity<>(pokemonArrayList, HttpStatus.OK);
     }
@@ -42,8 +41,10 @@ public class PokemonController {
 
     @PutMapping("pokemon/{id}/update")
     public ResponseEntity<Pokemon> updatePokemon(@PathVariable("id") int pokemonId, @RequestBody Pokemon pokemon){
+        System.out.println(pokemon.getName());
+        System.out.println(pokemon.getType());
 
-        return new ResponseEntity<>(new Pokemon(pokemonId, pokemon.getName(), pokemon.getType()), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(pokemon, HttpStatus.OK);
     }
 
     @DeleteMapping("pokemon/{id}/delete")
@@ -52,9 +53,6 @@ public class PokemonController {
 
         return new ResponseEntity<>("Pokemon Deleted successfully", HttpStatus.OK);
     }
-
-
-
 
 }
 
