@@ -14,44 +14,40 @@ import java.util.List;
 @RequestMapping("/api/")
 public class PokemonController {
 
-    @GetMapping("pokemon")
-    public ResponseEntity<List<Pokemon>> getAllPokemon(){
-        ArrayList<Pokemon> pokemonArrayList = new ArrayList<>();
+   @GetMapping("pokemon")
+   public ResponseEntity<List<Pokemon>> getAllPokemon(){
+        List<Pokemon> pokemonList = new ArrayList<>();
+        pokemonList.add(new Pokemon(0, "Charmander", "Fire"));
+        pokemonList.add(new Pokemon(1, "Pikachu", "Electric"));
+        pokemonList.add(new Pokemon(2, "Bulbasaur", "Water"));
 
-        pokemonArrayList.add(new Pokemon(0, "Charmander", "Fire"));
-        pokemonArrayList.add(new Pokemon(1, "Pikachu", "Electric"));
-        pokemonArrayList.add(new Pokemon(2, "bulbasaur", "Water"));
+       return new ResponseEntity<>(pokemonList, HttpStatus.ACCEPTED);
+   }
 
-        return new ResponseEntity<>(pokemonArrayList, HttpStatus.OK);
-    }
+   @GetMapping("pokemon/{id}")
+   public ResponseEntity<Pokemon> getPokemon(@PathVariable("id") int pokemonId){
+       Pokemon newPokemon = new Pokemon(4, "Charizard", "Fire");
 
-    @GetMapping("pokemon/{id}")
-    public ResponseEntity<Pokemon> getPokemon(@PathVariable("id") int pokemonId){
-        return new ResponseEntity<>(new Pokemon(pokemonId, "Squirtle", "Water"), HttpStatus.FOUND);
-    }
+       return new ResponseEntity<>(newPokemon, HttpStatus.ACCEPTED);
+   }
 
-    @PostMapping("pokemon/create")
-    public ResponseEntity<Pokemon> createPokemon(@RequestBody Pokemon pokemon){
+   @PostMapping("pokemon/create")
+   public ResponseEntity<Pokemon> createPokemon(@RequestBody Pokemon pokemon){
 
-        System.out.println(pokemon.getName());
-        System.out.println(pokemon.getType());
-
-        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
-    }
+           return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+   }
 
     @PutMapping("pokemon/{id}/update")
     public ResponseEntity<Pokemon> updatePokemon(@PathVariable("id") int pokemonId, @RequestBody Pokemon pokemon){
-        System.out.println(pokemon.getName());
-        System.out.println(pokemon.getType());
-
-        return new ResponseEntity<>(pokemon, HttpStatus.OK);
+       pokemon.setId(pokemonId);
+       return new ResponseEntity<>(pokemon, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("pokemon/{id}/delete")
     public ResponseEntity<String> deletePokemon(@PathVariable("id") int pokemonId){
+        System.out.println(pokemonId);
 
-
-        return new ResponseEntity<>("Pokemon Deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Pokemon with ID: "+pokemonId+" Deleted successfully", HttpStatus.OK);
     }
 
 }
