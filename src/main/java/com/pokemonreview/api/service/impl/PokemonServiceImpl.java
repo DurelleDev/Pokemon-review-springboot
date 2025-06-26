@@ -5,7 +5,12 @@ import com.pokemonreview.api.models.Pokemon;
 import com.pokemonreview.api.repository.PokemonRepository;
 import com.pokemonreview.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PokemonServiceImpl implements PokemonService {
@@ -34,6 +39,13 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     @Override
+    public List<PokemonDto> getAllPokemon(){
+        List<Pokemon> pokemonList = pokemonRepository.findAll();
+
+        return pokemonList.stream().map(this::mapToDto).toList();
+    }
+
+    @Override
     public void deletePokemon(int pokemonId){
 
     }
@@ -42,6 +54,28 @@ public class PokemonServiceImpl implements PokemonService {
     public PokemonDto updatePokemon(int pokemonId, PokemonDto pokemonDto){
 
         return null;
+    }
+
+    private PokemonDto mapToDto(Pokemon pokemon){
+
+        PokemonDto pokemonDto = new PokemonDto();
+
+        pokemonDto.setId(pokemon.getId());
+        pokemonDto.setName(pokemon.getName());
+        pokemonDto.setType(pokemon.getType());
+
+        return pokemonDto;
+    }
+
+    private Pokemon mapToEntity(PokemonDto pokemonDto){
+
+        Pokemon pokemon = new Pokemon();
+
+        //We don't map the ID because it increments on its own when added to the repository
+        pokemon.setName(pokemonDto.getName());
+        pokemon.setType(pokemonDto.getType());
+
+        return pokemon;
     }
 
 
