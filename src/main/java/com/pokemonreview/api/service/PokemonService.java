@@ -8,7 +8,8 @@ import java.util.List;
 public interface PokemonService {
   PokemonDto createPokemon(PokemonDto pokemonDto);
   List<PokemonDto> getAllPokemon();
-  void deletePokemon(int pokemonId);
+  PokemonDto getSpecificPokemon(int pokemonId);
   PokemonDto updatePokemon(int pokemonId, PokemonDto pokemonDto);
+  void deletePokemon(int pokemonId);
 
 }
