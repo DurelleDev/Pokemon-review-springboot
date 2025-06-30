@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PokemonService {
   PokemonDto createPokemon(PokemonDto pokemonDto);
-  List<PokemonDto> getAllPokemon();
+  List<PokemonDto> getAllPokemon(int pageNo, int pageSize);
   PokemonDto getSpecificPokemon(int pokemonId);
   PokemonDto updatePokemon(int pokemonId, PokemonDto pokemonDto);
   void deletePokemon(int pokemonId);

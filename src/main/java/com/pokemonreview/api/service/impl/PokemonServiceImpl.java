@@ -6,6 +6,9 @@ import com.pokemonreview.api.models.Pokemon;
 import com.pokemonreview.api.repository.PokemonRepository;
 import com.pokemonreview.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,11 +43,14 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     @Override
-    public List<PokemonDto> getAllPokemon(){
-        List<Pokemon> pokemonList = pokemonRepository.findAll();
+    public List<PokemonDto> getAllPokemon(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo, pageSize); // Creates and object to parse your find all entity
+
+        Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
+        List<Pokemon> listOfPokemons = pokemons.getContent();
         //Map because it returns a new list
 //         return pokemonList.stream().map(p -> mapToDto(p)).toList(); Lambda expression ->
-        return pokemonList.stream().map(this::mapToDto).toList(); // Double colon
+        return listOfPokemons.stream().map(this::mapToDto).toList(); // Double colon
     }
 
     public PokemonDto getSpecificPokemon(int pokemonId){
