@@ -1,6 +1,7 @@
 package com.pokemonreview.api.service.impl;
 
 import com.pokemonreview.api.dto.PokemonDto;
+import com.pokemonreview.api.dto.PokemonResponse;
 import com.pokemonreview.api.exceptions.PokemonNotFoundException;
 import com.pokemonreview.api.models.Pokemon;
 import com.pokemonreview.api.repository.PokemonRepository;
@@ -43,14 +44,24 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     @Override
-    public List<PokemonDto> getAllPokemon(int pageNo, int pageSize){
+    public PokemonResponse getAllPokemon(int pageNo, int pageSize){
         Pageable pageable = PageRequest.of(pageNo, pageSize); // Creates and object to parse your find all entity
 
-        Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
-        List<Pokemon> listOfPokemons = pokemons.getContent();
-        //Map because it returns a new list
-//         return pokemonList.stream().map(p -> mapToDto(p)).toList(); Lambda expression ->
-        return listOfPokemons.stream().map(this::mapToDto).toList(); // Double colon
+        Page<Pokemon> pokemonPages = pokemonRepository.findAll(pageable);
+        List<Pokemon> listOfPokemons = pokemonPages.getContent();
+        //return pokemonList.stream().map(p -> mapToDto(p)).toList(); Lambda expression ->
+        List<PokemonDto> content = listOfPokemons.stream().map(this::mapToDto).toList(); // Double colon
+
+        PokemonResponse response = new PokemonResponse();
+        response.setContent(content);
+        response.setPageNo(pokemonPages.getNumber());
+        response.setPageSize(pokemonPages.getSize());
+        response.setTotalElements(pokemonPages.getTotalElements());
+        response.setTotalPages(pokemonPages.getTotalPages());
+
+
+        return response;
+
     }
 
     public PokemonDto getSpecificPokemon(int pokemonId){
@@ -99,6 +110,20 @@ public class PokemonServiceImpl implements PokemonService {
         pokemon.setType(pokemonDto.getType());
 
         return pokemon;
+    }
+
+    private PokemonDto mapToResponse(PokemonResponse response, List<PokemonDto> content,
+                                          int pageNo, int pageSize, long totalElements, int totalPages, boolean isLast){
+
+        PokemonDto pokemonDto = new PokemonDto();
+        response.setContent(content);
+        response.setPageNo(pageNo);
+        response.setPageSize(pageSize);
+        response.setTotalElements(totalElements);
+        response.setTotalPages(totalPages);
+        response.setLast(isLast);
+
+        return null;
     }
 
 
