@@ -35,12 +35,12 @@ public class PokemonServiceImpl implements PokemonService {
 
         Pokemon newPokemon = pokemonRepository.save(pokemon);
 
-        PokemonDto pokemonResponse = new PokemonDto();
-        pokemonResponse.setId(newPokemon.getId());
-        pokemonResponse.setName(newPokemon.getName());
-        pokemonResponse.setType(newPokemon.getType());
+//        PokemonDto pokemonResponse = new PokemonDto();
+//        pokemonResponse.setId(newPokemon.getId());
+//        pokemonResponse.setName(newPokemon.getName());
+//        pokemonResponse.setType(newPokemon.getType());
 
-        return pokemonResponse;
+        return mapToDto(newPokemon);
     }
 
     @Override
@@ -69,6 +69,7 @@ public class PokemonServiceImpl implements PokemonService {
 
         return mapToDto(pokemon);
     }
+
 
     @Override
     public void deletePokemon(int pokemonId){

@@ -3,6 +3,9 @@ package com.pokemonreview.api.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,5 +16,8 @@ public class Pokemon{
     private int id;
     private String name;
     private String type;
+
+    @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviewsList = new ArrayList<Review>();
 
 }
